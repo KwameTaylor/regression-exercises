@@ -56,7 +56,7 @@ def prep_telco():
     # 0 is No Internet Service
     # 1 is DSL
     # 2 is Fiber Optic
-    df.internet_service_type_id = df.internet_service_type_id.map({1: 0, 2: 1, 3: 2})
+    df.internet_service_type_id = df.internet_service_type_id.map({3: 0, 1: 1, 2: 2})
 
     # Now to add a column called tenure_yrs that represents tenure in years
     df['tenure_yrs'] = round((df.tenure / 12), 2)
