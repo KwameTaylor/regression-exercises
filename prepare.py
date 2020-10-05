@@ -11,6 +11,9 @@ from acquire import get_telco_data, new_telco_data
 
 # The function below will acquire the data with get_telco_data from acquire.py and prepare the features to use in data exploration.
 def prep_telco():
+    '''
+    No arguments taken. Returns a df of the telco customer churn data in the Codeup SQL database.
+    '''
     # acquire the data from csv (or sql if no csv exists) and assign it as a DataFrame
     df = get_telco_data()
 
@@ -79,6 +82,9 @@ def prep_telco():
     return df
 
 def telco_split(df):
+    '''
+    Splits data into train, validate, and test.
+    '''
     # performs train, validate, test split on telco data, stratified by churn
     train_validate, test = train_test_split(df, test_size=.2, 
                                         random_state=666, 
@@ -99,6 +105,9 @@ def prep_mall_data(df):
     return train, test, validate
 
 def wrangle_grades():
+    '''
+    Reads student_grades csv and returns a df.
+    '''
     grades = pd.read_csv("student_grades.csv")
     grades.drop(columns="student_id", inplace=True)
     grades.replace(r"^\s*$", np.nan, regex=True, inplace=True)
