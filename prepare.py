@@ -94,6 +94,52 @@ def telco_split(df):
                                    stratify=train_validate.churn)
     return train, validate, test
 
+def telco_split_xy(df, target):
+    '''
+    Given the dataframe and the target (the target variable you want to predict on), returns X_train, X_train_scaled, y_train, X_validate_scaled, y_validate, X_test_scaled, y_test.
+    '''
+    # split data 
+    train_validate, test = train_test_split(df, test_size=.2, 
+                                        random_state=666, 
+                                        stratify=df.churn)
+    train, validate = train_test_split(train_validate, test_size=.3, 
+                                   random_state=666, 
+                                   stratify=train_validate.churn)
+
+    # split again, into x and y
+    # from Maggie's lesson notes: split train into X (dataframe, drop target) & y (series, keep target only)
+    X_train = train.drop(columns=[target])
+    y_train = train[target]
+    
+    # split validate into X (dataframe, drop target) & y (series, keep target only)
+    X_validate = validate.drop(columns=[target])
+    y_validate = validate[target]
+    
+    # split test into X (dataframe, drop target) & y (series, keep target only)
+    X_test = test.drop(columns=[target])
+    y_test = test[target]
+    
+    return X_train, y_train, X_validate, y_validate, X_test, y_test
+
+def telco_X_scale(X_train, X_validate, X_test):
+    '''
+    Takes arguments X_train, X_validate, X_test. Run after using telco_split_xy function. Returns X_train_scaled, X_validate_scaled, and X_test_scaled.
+    '''
+    scaler = MinMaxScaler(copy=True).fit(X_train)
+
+    X_train_scaled_array = scaler.transform(X_train)
+    X_validate_scaled_array = scaler.transform(X_validate)
+    X_test_scaled_array = scaler.transform(X_test)
+
+    # convert arrays to dataframes
+    X_train_scaled = pd.DataFrame(X_train_scaled_array).set_index([X_train.index.values])
+
+    X_validate_scaled = pd.DataFrame(X_validate_scaled_array).set_index([X_validate.index.values])
+
+    X_test_scaled = pd.DataFrame(X_test_scaled_array).set_index([X_test.index.values])
+
+    return X_train_scaled, X_validate_scaled, X_test_scaled
+
 def prep_mall_data(df):
     '''
     Takes the acquired mall data, does data prep,
