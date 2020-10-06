@@ -138,6 +138,18 @@ def telco_X_scale(X_train, X_validate, X_test):
 
     X_test_scaled = pd.DataFrame(X_test_scaled_array).set_index([X_test.index.values])
 
+    X_train_scaled.columns = ['contract_type', 'phone', 'internet_type', 'senior', 'partner',
+       'depend', 'tenure', 'monthly_charges', 'total_charges', 'num_add_ons',
+       'is_male', 'tenure_yrs']
+
+    X_validate_scaled.columns = ['contract_type', 'phone', 'internet_type', 'senior', 'partner',
+    'depend', 'tenure', 'monthly_charges', 'total_charges', 'num_add_ons',
+    'is_male', 'tenure_yrs']
+
+    X_test_scaled.columns = ['contract_type', 'phone', 'internet_type', 'senior', 'partner',
+    'depend', 'tenure', 'monthly_charges', 'total_charges', 'num_add_ons',
+    'is_male', 'tenure_yrs']
+
     return X_train_scaled, X_validate_scaled, X_test_scaled
 
 def prep_mall_data(df):
